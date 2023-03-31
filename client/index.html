@@ -13,11 +13,12 @@
   <body class="bg-gray-950">
     <div class="w-full h-screen flex justify-center">
       <div class="max-w-2xl w-full md:w-3/4 lg:w-2/4 bg-gray-800 flex flex-col">
-        <div class="bg-gray-700 px-4 py-4 rounded-b">
+        <div class="bg-gray-700 px-4 py-4">
           <p class="text-lg font-bold text-white">LB1 Chat - M324</p>
         </div>
+        <div class="px-2 py-2 text-sm text-white bg-gray-700 rounded-b" id="active_users"></div>
         <div class="flex-grow flex flex-col justify-start p-4 gap-4" id="messages"></div>
-         <div class="px-2 py-2 text-white text-xs" id="typing_users"></div>
+        <div class="px-2 py-2 text-white text-xs" id="typing_users"></div>
         <div class="bg-gray-700 px-4 py-4 flex items-center rounded-t">
           <input
             id="messageInput"
