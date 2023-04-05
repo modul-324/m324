@@ -1,0 +1,44 @@
+name: CD Pipeline
+on:
+  pull_request:
+    branches:
+      - main
+jobs:
+  Lint-Test-Build-Application:
+    runs-on: self-hosted
+    steps:
+      - name: 🔍️ Check out repository code
+        uses: actions/checkout@v3
+      - name: 🔐 Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: ⬇️ Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: ⬆️ Build and push Docker images
+        uses: docker/build-push-action@v4.0.0
+        with:
+          context: .
+          push: true
+          tags: mouayad04/m324:1.0.0
+      - name: 🔍️ Check and Install kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'latest'
+        id: install
+
+      - name: 📌 Set Kubernetes Context
+        uses: azure/k8s-set-context@v3
+        with:
+          kubeconfig: ${{ secrets.KUBE_CONFIG }}
+
+      - name: ♻️ Replace and Apply Kubernetes Manifests
+        uses: swdotcom/update-and-apply-kubernetes-configs@v1
+        with:
+          k8-config-file-paths: |
+            .k8s/00_namespace.yml
+            .k8s/01_deployment.yml
+            .k8s/02_service.yml
+            .k8s/03_ingress.yml
+          replacement-method: defined
