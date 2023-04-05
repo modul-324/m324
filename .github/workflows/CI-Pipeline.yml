@@ -1,0 +1,30 @@
+name: CI Pipeline
+on:
+  pull_request:
+    branches:
+    - main
+jobs:
+  Lint-Test-Build-Application:
+    runs-on: self-hosted
+    steps:
+      - name: 🔍️ Check out repository code
+        uses: actions/checkout@v3
+      - name: ⬇️ Install yarn
+        run: yarn install
+      - name: 👔 Lint Code
+        run: yarn lint
+      - name: 🔍️ Test Code
+        run: yarn test
+      - name: 📦 Build Application
+        run: yarn build
+      - name: 🏗️ Build Docker image
+        uses: docker/build-push-action@v4.0.0
+        with:
+          context: .
+          push: true
+          tags: mouayad04/m324:1.0.0
+          build-args: |
+            NODE_ENV=production
+          if: success()
+      - name: ✅ Verify Docker image
+        run: docker run --rm mouayad04/m324:1.0.0 npm run test
