@@ -9,22 +9,22 @@ jobs:
     steps:
       - name: 🔍️ Check out repository code
         uses: actions/checkout@v3
+
+      - name: 📝 Use Node.js 16.x
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16.x'
+
       - name: ⬇️ Install yarn
-        run: yarn install
+        run: |
+          npm install -g yarn
+          yarn install
+
       - name: 👔 Lint Code
         run: yarn lint
+
       - name: 🔍️ Test Code
         run: yarn test
+
       - name: 📦 Build Application
         run: yarn build
-      - name: 🏗️ Build Docker image
-        uses: docker/build-push-action@v4.0.0
-        with:
-          context: .
-          push: true
-          tags: mouayad04/m324:1.0.0
-          build-args: |
-            NODE_ENV=production
-          if: success()
-      - name: ✅ Verify Docker image
-        run: docker run --rm mouayad04/m324:1.0.0 npm run test
