@@ -10,7 +10,7 @@ jobs:
       - name: 🔍️ Check out repository code
         uses: actions/checkout@v3
       - name: ⬇️ Install yarn
-        run: yarn install
+        run: npm install yarn
       - name: 👔 Lint Code
         run: yarn lint
       - name: 🔍️ Test Code
