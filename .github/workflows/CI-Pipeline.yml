@@ -7,7 +7,7 @@ jobs:
   Lint-Test-Build-Application:
     runs-on: self-hosted
     steps:
-      - name: Check out repository code
+      - name: 🔍️ Check out repository code
         uses: actions/checkout@v3
       - name: ⬇️ Install yarn
         run: yarn install
@@ -17,7 +17,7 @@ jobs:
         run: yarn test
       - name: 📦 Build Application
         run: yarn build
-      - name: Build Docker image
+      - name: 🏗️ Build Docker image
         uses: docker/build-push-action@v4.0.0
         with:
           context: .
@@ -26,5 +26,5 @@ jobs:
           build-args: |
             NODE_ENV=production
           if: success()
-      - name: Verify Docker image
+      - name: ✅ Verify Docker image
         run: docker run --rm mouayad04/m324:1.0.0 npm run test
